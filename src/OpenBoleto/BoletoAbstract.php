@@ -365,7 +365,9 @@ abstract class BoletoAbstract
     public function setCarteira($carteira)
     {
         if (!in_array($carteira, $this->getCarteiras())) {
-            throw new Exception("Carteira não disponível!");
+            $msg = "Carteira {$carteira} não é uma das disponíveis: "
+              .implode(', ', $this->getCarteiras());
+            throw new Exception($msg);
         }
 
         $this->carteira = $carteira;
