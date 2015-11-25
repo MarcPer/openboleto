@@ -155,14 +155,10 @@ class BancoDoBrasil extends BoletoAbstract
         strlen($this->getNossoNumero()) < 17 and $nossoNumero = substr($nossoNumero, 0, -2);
 
         // Sequencial do cliente com 17 dígitos
-        // Apenas para convênio com 6 dígitos, modalidade sem registro - carteira 16 e 18 (definida para 21)
-        if (strlen($this->getSequencial()) > 10) {
-            if ($length == 6 and $this->getCarteira() == 21) {
-                // Convênio (6) + Nosso número (17) + Carteira (2)
-                return self::zeroFill($this->getConvenio(), 6) . $nossoNumero . '21';
-            } else {
-                throw new Exception('Só é possível criar um boleto com mais de 10 dígitos no nosso número quando a carteira é 21 e o convênio possuir 6 dígitos.');
-            }
+        // Apenas para convênio com 6 dígitos, modalidade sem registro - carteira 16 e 18 (definida para 21)        
+        if ($length == 6 and $this->getCarteira() == 21) {
+            // Convênio (6) + Nosso número (17) + Carteira (2)
+            return self::zeroFill($this->getConvenio(), 6) . $nossoNumero . '21';
         }
 
         switch ($length) {
@@ -175,6 +171,6 @@ class BancoDoBrasil extends BoletoAbstract
                 return '000000' . $nossoNumero . self::zeroFill($this->getCarteira(), 2);
         }
 
-        throw new Exception('O código do convênio precisa ter 4, 6 ou 7 dígitos!');
+        throw new Exception('O código do convênio precisa ter 4, 6 ou 7 dígitos');
     }
 }
